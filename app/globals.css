@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --background: #fffaf3;
+  --foreground: #3f3934;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--foreground);
+  background:
+    radial-gradient(circle at 10% 0%, rgba(245, 214, 194, 0.45), transparent 28rem),
+    radial-gradient(circle at 100% 32%, rgba(184, 200, 168, 0.22), transparent 26rem),
+    var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+::selection {
+  background: #f5d6c2;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid rgba(203, 118, 81, 0.35);
+  outline-offset: 2px;
+}
+
+@layer components {
+  .serif {
+    font-family: Georgia, "Times New Roman", serif;
+  }
+
+  .pill {
+    @apply inline-flex items-center rounded-full border border-peach-200 bg-white/70 px-3 py-1 text-xs font-bold uppercase tracking-[0.13em] text-peach-700;
+  }
+
+  .button-primary {
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-ink px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-peach-700 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0;
+  }
+
+  .button-secondary {
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-peach-200 bg-white px-5 py-3 text-sm font-bold text-ink transition hover:-translate-y-0.5 hover:border-peach-300 hover:bg-peach-50 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0;
+  }
+
+  .field {
+    @apply w-full rounded-2xl border border-peach-200 bg-white px-4 py-3 text-sm text-ink shadow-sm outline-none transition placeholder:text-stone-400 focus:border-peach-500;
+  }
+
+  .label {
+    @apply mb-2 block text-sm font-bold text-ink;
+  }
+}

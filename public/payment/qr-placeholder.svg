@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <rect width="600" height="600" rx="60" fill="#fffaf3"/>
+  <rect x="50" y="50" width="500" height="500" rx="44" fill="#ffffff" stroke="#f5d6c2" stroke-width="12"/>
+  <g fill="#3f3934">
+    <path d="M105 105h145v145H105zm28 28v89h89v-89z"/>
+    <path d="M350 105h145v145H350zm28 28v89h89v-89z"/>
+    <path d="M105 350h145v145H105zm28 28v89h89v-89z"/>
+    <rect x="290" y="290" width="42" height="42" rx="5"/>
+    <rect x="355" y="290" width="42" height="42" rx="5"/>
+    <rect x="420" y="290" width="75" height="42" rx="5"/>
+    <rect x="290" y="355" width="42" height="42" rx="5"/>
+    <rect x="355" y="355" width="107" height="42" rx="5"/>
+    <rect x="290" y="420" width="107" height="42" rx="5"/>
+    <rect x="420" y="420" width="75" height="75" rx="5"/>
+  </g>
+  <rect x="115" y="276" width="370" height="56" rx="28" fill="#fbece2"/>
+  <text x="300" y="311" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#8b4930">REPLACE WITH PAYMENT QR</text>
+</svg>
