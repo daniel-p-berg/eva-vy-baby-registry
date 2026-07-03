@@ -19,6 +19,7 @@ import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
 import { ClaimForm } from "@/components/admin/claim-form";
+import { DeleteClaimForm } from "@/components/admin/delete-claim-form";
 import { ItemForm } from "@/components/admin/item-form";
 import { getAdminData } from "@/lib/admin-data";
 import { formatUsd, formatVnd } from "@/lib/format";
@@ -30,6 +31,7 @@ import {
 import { hasSupabaseConfig } from "@/lib/supabase";
 import type { ClaimStatus } from "@/lib/types";
 import {
+  deleteClaim,
   loginAdmin,
   logoutAdmin,
   saveClaim,
@@ -190,7 +192,11 @@ export default async function AdminPage({ params, searchParams }: Props) {
       {query.saved ? (
         <div className="mt-6 flex items-center gap-2 rounded-2xl bg-sage-100 px-4 py-3 text-sm font-bold text-sage-700">
           <CheckCircle2 className="size-4" />
-          {query.saved === "claim" ? "Claim saved." : "Item saved."}
+          {query.saved === "claim"
+            ? "Claim saved."
+            : query.saved === "deleted"
+              ? "Claim deleted permanently."
+              : "Item saved."}
         </div>
       ) : null}
       {query.error ? (
@@ -281,6 +287,17 @@ export default async function AdminPage({ params, searchParams }: Props) {
                       claim={claim}
                       action={saveClaim}
                     />
+                    <div className="mt-5 border-t border-peach-100 pt-5">
+                      <p className="mb-3 text-xs leading-5 text-stone-500">
+                        Keep Cancel for real guest changes. Permanently delete
+                        only test, duplicate, or accidental claims.
+                      </p>
+                      <DeleteClaimForm
+                        secret={secret}
+                        claimId={claim.id}
+                        action={deleteClaim}
+                      />
+                    </div>
                   </div>
                 </details>
               ))

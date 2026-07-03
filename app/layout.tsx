@@ -11,6 +11,12 @@ export const metadata: Metadata = {
   },
   description:
     "A small registry celebrating Eva Vy, with gifts and group funds for the days ahead.",
+  formatDetection: {
+    telephone: false,
+    date: false,
+    email: false,
+    address: false,
+  },
 };
 
 export default function RootLayout({
@@ -19,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth">
       <body>
         <CartProvider>
           <SiteHeader />

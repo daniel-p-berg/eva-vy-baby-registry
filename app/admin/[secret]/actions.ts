@@ -12,6 +12,7 @@ import {
   isValidAdminSecret,
   isValidAdminSession,
 } from "@/lib/security";
+import { formatUsd, formatVnd } from "@/lib/format";
 import { getServiceClient } from "@/lib/supabase";
 
 function value(formData: FormData, key: string) {
@@ -283,4 +284,84 @@ export async function saveClaim(formData: FormData) {
   revalidatePath("/");
   revalidatePath(adminUrl(secret));
   redirect(adminUrl(secret, "saved=claim"));
+}
+
+const deleteClaimSchema = z.object({
+  claimId: z.string().uuid(),
+});
+
+export async function deleteClaim(formData: FormData) {
+  const secret = await requireAdmin(formData);
+  const parsed = deleteClaimSchema.safeParse({
+    claimId: value(formData, "claimId"),
+  });
+  if (!parsed.success) {
+    redirect(adminUrl(secret, "error=Could%20not%20identify%20the%20claim."));
+  }
+
+  const supabase = getServiceClient();
+  const { data: claim, error: readError } = await supabase
+    .from("claims")
+    .select(
+      "id, guest_name, status, intended_payment_method, total_usd, total_vnd, claim_items(item_id, quantity, contribution_usd, contribution_vnd, items(title, item_type))",
+    )
+    .eq("id", parsed.data.claimId)
+    .maybeSingle();
+
+  if (readError || !claim) {
+    redirect(adminUrl(secret, "error=Could%20not%20load%20the%20claim."));
+  }
+
+  const totalUsd = Number(claim.total_usd);
+  const totalVnd = Number(claim.total_vnd);
+  const lines = (claim.claim_items || []).map((line) => ({
+    item_id: line.item_id,
+    title: line.items?.[0]?.title,
+    item_type: line.items?.[0]?.item_type,
+    quantity: line.quantity,
+    contribution_usd:
+      line.contribution_usd === null ? null : Number(line.contribution_usd),
+    contribution_vnd:
+      line.contribution_vnd === null ? null : Number(line.contribution_vnd),
+  }));
+  const { data: event, error: eventError } = await supabase
+    .from("activity_events")
+    .insert({
+      event_type: "claim_deleted",
+      claim_id: claim.id,
+      message: `Deleted claim for “${claim.guest_name}” totaling ${formatUsd(totalUsd)} (${formatVnd(totalVnd)}).`,
+      metadata: {
+        claim_id: claim.id,
+        guest_name: claim.guest_name,
+        status: claim.status,
+        intended_payment_method: claim.intended_payment_method,
+        total_usd: totalUsd,
+        total_vnd: totalVnd,
+        lines,
+      },
+    })
+    .select("id")
+    .single();
+
+  if (eventError || !event) {
+    redirect(
+      adminUrl(secret, "error=Could%20not%20record%20the%20deletion%20event."),
+    );
+  }
+
+  const { data: deletedClaim, error: deleteError } = await supabase
+    .from("claims")
+    .delete()
+    .eq("id", claim.id)
+    .select("id")
+    .single();
+
+  if (deleteError || !deletedClaim) {
+    await supabase.from("activity_events").delete().eq("id", event.id);
+    redirect(adminUrl(secret, "error=Could%20not%20delete%20the%20claim."));
+  }
+
+  revalidatePath("/");
+  revalidatePath(adminUrl(secret));
+  redirect(adminUrl(secret, "saved=deleted"));
 }
