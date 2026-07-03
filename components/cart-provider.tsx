@@ -40,21 +40,24 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      const stored = window.localStorage.getItem(STORAGE_KEY);
+      const stored = window.sessionStorage.getItem(STORAGE_KEY);
       if (stored) {
         const parsed: unknown = JSON.parse(stored);
         if (isCartState(parsed)) setCart(parsed);
       }
     } catch {
-      window.localStorage.removeItem(STORAGE_KEY);
+      // Storage can be unavailable in private browsing or restricted webviews.
     } finally {
       setReady(true);
     }
   }, []);
 
   useEffect(() => {
-    if (ready) {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+    if (!ready) return;
+    try {
+      window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+    } catch {
+      // Keep the in-memory cart working when storage is unavailable.
     }
   }, [cart, ready]);
 
