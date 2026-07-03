@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
+import {
+  claimActivityDetails,
+  claimActivityMetadata,
+  claimCreatedMessage,
+} from "@/lib/activity";
 import { signReceipt } from "@/lib/security";
 import { getServiceClient, hasSupabaseConfig } from "@/lib/supabase";
 
@@ -119,6 +124,47 @@ export async function POST(request: Request) {
   }
 
   const claimId = String(data);
+  const { data: claim, error: claimError } = await supabase
+    .from("claims")
+    .select(
+      "guest_name, guest_email, guest_note, intended_payment_method, total_usd, total_vnd, claim_items(item_id, quantity, contribution_usd, contribution_vnd, unit_price_usd, unit_price_vnd, items(title))",
+    )
+    .eq("id", claimId)
+    .single();
+
+  if (claimError || !claim) {
+    console.error("Could not load the new claim activity:", claimError?.message);
+  } else {
+    const details = claimActivityDetails(claim);
+    const message = claimCreatedMessage(details);
+    const metadata = claimActivityMetadata(details);
+    const { data: updatedEvents, error: activityError } = await supabase
+      .from("activity_events")
+      .update({
+        message,
+        metadata,
+      })
+      .eq("claim_id", claimId)
+      .eq("event_type", "claim_created")
+      .select("id");
+
+    if (activityError) {
+      console.error("Could not enrich the new claim activity:", activityError.message);
+    } else if (!updatedEvents.length) {
+      const { error: insertError } = await supabase
+        .from("activity_events")
+        .insert({
+          event_type: "claim_created",
+          claim_id: claimId,
+          message,
+          metadata,
+        });
+      if (insertError) {
+        console.error("Could not create the new claim activity:", insertError.message);
+      }
+    }
+  }
+
   return NextResponse.json({
     claimId,
     receipt: signReceipt(claimId),

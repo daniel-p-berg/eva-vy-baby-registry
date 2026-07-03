@@ -328,7 +328,7 @@ export default async function AdminPage({ params, searchParams }: Props) {
                     className="relative border-l-2 border-peach-100 pl-4"
                   >
                     <span className="absolute -left-[5px] top-1 size-2 rounded-full bg-peach-500" />
-                    <p className="text-sm font-semibold leading-5">
+                    <p className="break-words text-sm font-semibold leading-6">
                       {event.message}
                     </p>
                     <p className="mt-1 text-[11px] text-stone-500">

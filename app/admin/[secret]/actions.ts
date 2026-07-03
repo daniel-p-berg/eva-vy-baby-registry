@@ -6,13 +6,17 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import {
+  claimActivityDetails,
+  claimActivityMetadata,
+  claimDeletedMessage,
+} from "@/lib/activity";
+import {
   ADMIN_COOKIE,
   createAdminSessionToken,
   isValidAdminPassword,
   isValidAdminSecret,
   isValidAdminSession,
 } from "@/lib/security";
-import { formatUsd, formatVnd } from "@/lib/format";
 import { getServiceClient } from "@/lib/supabase";
 
 function value(formData: FormData, key: string) {
@@ -303,7 +307,7 @@ export async function deleteClaim(formData: FormData) {
   const { data: claim, error: readError } = await supabase
     .from("claims")
     .select(
-      "id, guest_name, status, intended_payment_method, total_usd, total_vnd, claim_items(item_id, quantity, contribution_usd, contribution_vnd, items(title, item_type))",
+      "id, guest_name, guest_email, guest_note, status, intended_payment_method, total_usd, total_vnd, claim_items(item_id, quantity, contribution_usd, contribution_vnd, unit_price_usd, unit_price_vnd, items(title))",
     )
     .eq("id", parsed.data.claimId)
     .maybeSingle();
@@ -312,32 +316,17 @@ export async function deleteClaim(formData: FormData) {
     redirect(adminUrl(secret, "error=Could%20not%20load%20the%20claim."));
   }
 
-  const totalUsd = Number(claim.total_usd);
-  const totalVnd = Number(claim.total_vnd);
-  const lines = (claim.claim_items || []).map((line) => ({
-    item_id: line.item_id,
-    title: line.items?.[0]?.title,
-    item_type: line.items?.[0]?.item_type,
-    quantity: line.quantity,
-    contribution_usd:
-      line.contribution_usd === null ? null : Number(line.contribution_usd),
-    contribution_vnd:
-      line.contribution_vnd === null ? null : Number(line.contribution_vnd),
-  }));
+  const details = claimActivityDetails(claim);
   const { data: event, error: eventError } = await supabase
     .from("activity_events")
     .insert({
       event_type: "claim_deleted",
       claim_id: claim.id,
-      message: `Deleted claim for “${claim.guest_name}” totaling ${formatUsd(totalUsd)} (${formatVnd(totalVnd)}).`,
+      message: claimDeletedMessage(details),
       metadata: {
-        claim_id: claim.id,
-        guest_name: claim.guest_name,
         status: claim.status,
-        intended_payment_method: claim.intended_payment_method,
-        total_usd: totalUsd,
-        total_vnd: totalVnd,
-        lines,
+        ...claimActivityMetadata(details),
+        claim_id: claim.id,
       },
     })
     .select("id")
