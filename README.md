@@ -17,8 +17,8 @@ Open [http://localhost:3000](http://localhost:3000). Without Supabase variables,
 ## Supabase setup
 
 1. Create a Supabase project.
-2. Open the SQL editor and run [`supabase/migrations/001_initial_schema.sql`](supabase/migrations/001_initial_schema.sql).
-3. Run [`supabase/seed.sql`](supabase/seed.sql) to add the nine starter registry items.
+2. Open the SQL editor and run the SQL files in [`supabase/migrations/`](supabase/migrations/) in order.
+3. Run [`supabase/seed.sql`](supabase/seed.sql) to add the ten starter registry items.
 4. Copy the project URL, anon key, and service role key into `.env.local`.
 5. Never place the service role key in a `NEXT_PUBLIC_` variable.
 

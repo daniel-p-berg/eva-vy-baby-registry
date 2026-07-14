@@ -1,0 +1,51 @@
+begin;
+
+insert into public.items (
+  id, title, description, image_path, category, item_type,
+  price_usd, price_vnd, quantity_needed,
+  fund_target_usd, fund_target_vnd, is_active, sort_order
+) values
+  (
+    'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
+    'Ergobaby Omni baby carrier',
+    'A breathable, ergonomic carrier for hands-free walks, errands, and newborn-to-toddler snuggles.',
+    '/products/ergobaby-omni-carrier.png', 'On the go', 'fixed',
+    200, 5200000, 1, null, null, true, 7
+  ),
+  (
+    '77777777-7777-4777-8777-777777777777',
+    'Chilux V1.6 stroller fund',
+    'A multifunction stroller with bassinet-style recline, adjustable handle, and sturdy wheels for everyday outings.',
+    '/products/chilux-v16-stroller.png', 'On the go', 'fund',
+    null, null, null, 120, 3120000, true, 8
+  ),
+  (
+    '88888888-8888-4888-8888-888888888888',
+    'Chilux Peace wooden crib fund',
+    'A sturdy 6-mode wooden crib/cot that can grow with Eva Vy from sleepy newborn days into toddler routines.',
+    '/products/chilux-peace-crib.png', 'Sleep', 'fund',
+    null, null, null, 280, 7280000, true, 9
+  ),
+  (
+    '99999999-9999-4999-8999-999999999999',
+    'Hospital & postpartum fund',
+    'Support meals, recovery supplies, and the first days at home.',
+    '/products/placeholder.png', 'Family care', 'fund',
+    null, null, null, 800, 20800000, true, 10
+  )
+on conflict (id) do update
+set title = excluded.title,
+    description = excluded.description,
+    image_path = excluded.image_path,
+    category = excluded.category,
+    item_type = excluded.item_type,
+    price_usd = excluded.price_usd,
+    price_vnd = excluded.price_vnd,
+    quantity_needed = excluded.quantity_needed,
+    fund_target_usd = excluded.fund_target_usd,
+    fund_target_vnd = excluded.fund_target_vnd,
+    is_active = excluded.is_active,
+    sort_order = excluded.sort_order,
+    updated_at = now();
+
+commit;
