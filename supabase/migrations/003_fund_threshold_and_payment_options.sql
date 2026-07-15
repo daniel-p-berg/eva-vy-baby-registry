@@ -1,15 +1,15 @@
 begin;
 
 update public.claims
-set intended_payment_method = 'Not sure yet'
-where intended_payment_method = 'PayPal';
+set intended_payment_method = 'Venmo'
+where intended_payment_method in ('PayPal', 'Not sure yet');
 
 alter table public.claims
   drop constraint if exists claims_intended_payment_method_check;
 
 alter table public.claims
   add constraint claims_intended_payment_method_check
-  check (intended_payment_method in ('Venmo', 'Cash App', 'Not sure yet'));
+  check (intended_payment_method in ('Venmo', 'Cash App'));
 
 update public.claim_items
 set contribution_usd = unit_price_usd * quantity,

@@ -211,7 +211,7 @@ const claimSchema = z.object({
       "Enter a valid email.",
     ),
   guestNote: z.string().trim().max(2000),
-  intendedPaymentMethod: z.enum(["Venmo", "Cash App", "Not sure yet"]),
+  intendedPaymentMethod: z.enum(["Venmo", "Cash App"]),
   status: z.enum(["claimed", "paid", "purchased", "cancelled"]),
   adminNote: z.string().trim().max(5000),
 });

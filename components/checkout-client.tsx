@@ -21,7 +21,6 @@ import type { PaymentMethod } from "@/lib/types";
 const methods: PaymentMethod[] = [
   "Venmo",
   "Cash App",
-  "Not sure yet",
 ];
 
 export function CheckoutClient() {

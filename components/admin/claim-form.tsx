@@ -41,7 +41,6 @@ export function ClaimForm({ secret, claim, action }: Props) {
         >
           <option>Venmo</option>
           <option>Cash App</option>
-          <option>Not sure yet</option>
         </select>
       </label>
       <label>

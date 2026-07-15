@@ -42,7 +42,7 @@ create table public.claims (
   guest_email text,
   guest_note text,
   intended_payment_method text not null check (
-    intended_payment_method in ('Venmo', 'Cash App', 'Not sure yet')
+    intended_payment_method in ('Venmo', 'Cash App')
   ),
   status text not null default 'claimed' check (
     status in ('claimed', 'paid', 'purchased', 'cancelled')
@@ -212,7 +212,7 @@ begin
   if p_guest_note is not null and char_length(p_guest_note) > 2000 then
     raise exception 'INVALID_GUEST_NOTE';
   end if;
-  if p_intended_payment_method not in ('Venmo', 'Cash App', 'Not sure yet') then
+  if p_intended_payment_method not in ('Venmo', 'Cash App') then
     raise exception 'INVALID_PAYMENT_METHOD';
   end if;
   if jsonb_typeof(coalesce(p_fixed_items, '[]'::jsonb)) <> 'array'
@@ -392,7 +392,7 @@ begin
   p_admin_note := nullif(trim(coalesce(p_admin_note, '')), '');
 
   if char_length(p_guest_name) not between 1 and 120 then raise exception 'INVALID_GUEST_NAME'; end if;
-  if p_intended_payment_method not in ('Venmo', 'Cash App', 'Not sure yet') then
+  if p_intended_payment_method not in ('Venmo', 'Cash App') then
     raise exception 'INVALID_PAYMENT_METHOD';
   end if;
   if p_status not in ('claimed', 'paid', 'purchased', 'cancelled') then
