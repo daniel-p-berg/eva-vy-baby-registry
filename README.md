@@ -1,6 +1,6 @@
 # Eva Vy Baby Shower Registry
 
-A no-login gift registry built with Next.js App Router, TypeScript, Tailwind CSS, and Supabase Postgres. Guests reserve fixed-price gifts or contribute to group funds, then receive Venmo and Cash App instructions. The app never processes payments.
+A no-login gift registry built with Next.js App Router, TypeScript, Tailwind CSS, and Supabase Postgres. Guests reserve fixed-price gifts or contribute to group funds, then receive Venmo, Cash App, and Zelle instructions. The app never processes payments.
 
 ## Local setup
 
@@ -41,6 +41,7 @@ Cancelled claims are excluded from all public availability totals.
 | `CONTACT_EMAIL` | Change-contact email, defaults to `831dberg@gmail.com` |
 | `VENMO_HANDLE` | Handle or label shown with the Venmo QR |
 | `CASHAPP_HANDLE` | Handle or label shown with the Cash App QR |
+| `ZELLE_HANDLE` | Label shown with the Zelle QR |
 | `PAYMENT_NOTE` | Suggested payment note |
 | `NEXT_PUBLIC_USD_TO_VND_RATE` | Display fallback for client-side USD/VND previews |
 
@@ -67,6 +68,7 @@ Replace these included, visibly marked placeholder PNGs with the real payment QR
 ```text
 public/payment/venmo.png
 public/payment/cashapp.png
+public/payment/zelle.png
 ```
 
 Keep the filenames unchanged. The app does not use Supabase Storage or Vercel Blob.

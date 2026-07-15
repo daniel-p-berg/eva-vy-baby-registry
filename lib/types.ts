@@ -1,6 +1,7 @@
 export type ItemType = "fixed" | "fund";
 export type ClaimStatus = "claimed" | "paid" | "purchased" | "cancelled";
 export type PaymentMethod = "Venmo" | "Cash App";
+export type StoredPaymentMethod = PaymentMethod | null;
 
 export type RegistryItem = {
   id: string;
@@ -64,7 +65,7 @@ export type ClaimDetail = {
   guest_name: string;
   guest_email: string | null;
   guest_note: string | null;
-  intended_payment_method: PaymentMethod;
+  intended_payment_method: StoredPaymentMethod;
   status: ClaimStatus;
   admin_note: string | null;
   total_usd: number;

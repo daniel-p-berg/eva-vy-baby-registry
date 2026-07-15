@@ -422,10 +422,11 @@ export default async function AdminPage({ params, searchParams }: Props) {
             </p>
           </div>
         </div>
-        <dl className="mt-6 grid gap-3 sm:grid-cols-2">
+        <dl className="mt-6 grid gap-3 sm:grid-cols-3">
           {[
             ["Venmo", process.env.VENMO_HANDLE || "@Daniel-Berg-58"],
             ["Cash App", process.env.CASHAPP_HANDLE || "$danielpbergjr"],
+            ["Zelle", process.env.ZELLE_HANDLE || "Scan the QR code"],
           ].map(([label, handle]) => (
             <div key={label} className="rounded-2xl bg-peach-50 p-4">
               <dt className="text-xs font-bold uppercase tracking-[0.12em] text-stone-500">
@@ -438,8 +439,8 @@ export default async function AdminPage({ params, searchParams }: Props) {
           ))}
         </dl>
         <p className="mt-4 text-xs leading-5 text-stone-500">
-          Update <code>VENMO_HANDLE</code> and <code>CASHAPP_HANDLE</code> in
-          Vercel, then redeploy. QR PNGs remain in{" "}
+          Update <code>VENMO_HANDLE</code>, <code>CASHAPP_HANDLE</code>, and{" "}
+          <code>ZELLE_HANDLE</code> in Vercel, then redeploy. QR PNGs remain in{" "}
           <code>/public/payment/</code>.
         </p>
       </section>

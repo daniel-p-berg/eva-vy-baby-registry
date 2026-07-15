@@ -46,10 +46,15 @@ export default async function ConfirmationPage({
       handle: process.env.CASHAPP_HANDLE || "$danielpbergjr",
       image: "/payment/cashapp.png",
     },
+    {
+      name: "Zelle",
+      handle: process.env.ZELLE_HANDLE || "Scan the QR code",
+      image: "/payment/zelle.png",
+    },
   ];
 
   return (
-    <main className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-20">
+    <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-20">
       <section className="text-center">
         <span className="mx-auto grid size-16 place-items-center rounded-full bg-sage-100 text-sage-700">
           <Check className="size-8" strokeWidth={2.5} />
@@ -61,12 +66,13 @@ export default async function ConfirmationPage({
           Thank you, {claim.guest_name}.
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-stone-600">
-          Your selections are safely recorded. Choose any option below to send
-          your gift—no payment was taken by this website.
+          Your selections are safely recorded. These are the ways you can send
+          money so we can purchase the gifts here in Vietnam—no payment was
+          taken by this website.
         </p>
       </section>
 
-      <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_1.3fr]">
+      <div className="mt-10 grid gap-6 lg:grid-cols-[22rem_1fr]">
         <section className="rounded-4xl border border-white bg-white/80 p-6 shadow-soft">
           <h2 className="serif text-2xl font-bold">Gift summary</h2>
           <div className="mt-5 space-y-5">
@@ -116,10 +122,6 @@ export default async function ConfirmationPage({
           </div>
           <dl className="mt-5 text-sm">
             <div className="flex justify-between gap-4">
-              <dt className="text-stone-500">Intended payment</dt>
-              <dd className="font-bold">{claim.intended_payment_method}</dd>
-            </div>
-            <div className="mt-2 flex justify-between gap-4">
               <dt className="text-stone-500">Payment note</dt>
               <dd className="max-w-[13rem] text-right font-bold">{paymentNote}</dd>
             </div>
@@ -133,26 +135,24 @@ export default async function ConfirmationPage({
             </span>
             <div>
               <h2 className="serif text-2xl font-bold">Send your gift</h2>
-              <p className="text-xs text-stone-500">Use whichever option is easiest.</p>
+              <p className="text-xs text-stone-500">
+                Use whichever option is easiest for you.
+              </p>
             </div>
           </div>
 
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          <div className="mt-6 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
             {paymentOptions.map((option) => (
               <div
                 key={option.name}
-                className={`rounded-3xl border p-3 text-center ${
-                  claim.intended_payment_method === option.name
-                    ? "border-sage-300 bg-sage-50"
-                    : "border-peach-100 bg-white"
-                }`}
+                className="rounded-[2rem] border border-peach-100 bg-white p-4 text-center"
               >
-                <div className="relative mx-auto aspect-square w-full max-w-36 overflow-hidden rounded-2xl bg-white">
+                <div className="relative mx-auto aspect-square w-full max-w-64 overflow-hidden rounded-3xl bg-white md:max-w-72">
                   <Image
                     src={option.image}
                     alt={`${option.name} payment QR code`}
                     fill
-                    sizes="144px"
+                    sizes="(min-width: 1280px) 256px, (min-width: 640px) 224px, 80vw"
                     className="object-contain p-2"
                   />
                 </div>

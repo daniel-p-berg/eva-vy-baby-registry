@@ -21,7 +21,6 @@ const payloadSchema = z
         "Enter a valid email address.",
       ),
     guestNote: z.string().trim().max(2000),
-    intendedPaymentMethod: z.enum(["Venmo", "Cash App"]),
     fixed: z
       .array(
         z.object({
@@ -90,7 +89,7 @@ export async function POST(request: Request) {
     p_guest_name: payload.guestName,
     p_guest_email: payload.guestEmail || null,
     p_guest_note: payload.guestNote || null,
-    p_intended_payment_method: payload.intendedPaymentMethod,
+    p_intended_payment_method: null,
     p_fixed_items: payload.fixed.map((line) => ({
       item_id: line.itemId,
       quantity: line.quantity,

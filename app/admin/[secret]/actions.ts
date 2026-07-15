@@ -211,7 +211,7 @@ const claimSchema = z.object({
       "Enter a valid email.",
     ),
   guestNote: z.string().trim().max(2000),
-  intendedPaymentMethod: z.enum(["Venmo", "Cash App"]),
+  intendedPaymentMethod: z.enum(["", "Venmo", "Cash App"]),
   status: z.enum(["claimed", "paid", "purchased", "cancelled"]),
   adminNote: z.string().trim().max(5000),
 });
@@ -260,7 +260,7 @@ export async function saveClaim(formData: FormData) {
     p_guest_name: claim.guestName,
     p_guest_email: claim.guestEmail || null,
     p_guest_note: claim.guestNote || null,
-    p_intended_payment_method: claim.intendedPaymentMethod,
+    p_intended_payment_method: claim.intendedPaymentMethod || null,
     p_status: claim.status,
     p_admin_note: claim.adminNote || null,
     p_lines: lines,

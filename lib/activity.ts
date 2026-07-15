@@ -1,7 +1,7 @@
 import "server-only";
 
 import { formatUsd, formatVnd } from "@/lib/format";
-import type { PaymentMethod } from "@/lib/types";
+import type { StoredPaymentMethod } from "@/lib/types";
 
 export type ActivityFixedItem = {
   item_id: string;
@@ -22,7 +22,7 @@ export type ClaimActivityDetails = {
   guest_name: string;
   guest_email: string | null;
   guest_note: string | null;
-  intended_payment_method: PaymentMethod;
+  intended_payment_method: StoredPaymentMethod;
   fixed_items: ActivityFixedItem[];
   fund_contributions: ActivityFundContribution[];
   total_usd: number;
@@ -33,7 +33,7 @@ type ClaimActivityRow = {
   guest_name: string;
   guest_email: string | null;
   guest_note: string | null;
-  intended_payment_method: PaymentMethod;
+  intended_payment_method: StoredPaymentMethod;
   total_usd: unknown;
   total_vnd: unknown;
   claim_items: Array<{
@@ -123,7 +123,6 @@ export function claimActivityMetadata(details: ClaimActivityDetails) {
   return {
     guest_name: details.guest_name,
     guest_email: details.guest_email,
-    intended_payment_method: details.intended_payment_method,
     guest_note: details.guest_note,
     fixed_items: details.fixed_items,
     fund_contributions: details.fund_contributions,
@@ -145,7 +144,7 @@ export function claimCreatedMessage(details: ClaimActivityDetails) {
     ? ` Message: “${details.guest_note}”.`
     : "";
 
-  return `${details.guest_name} ${joinList(actions)}. Intended payment: ${details.intended_payment_method}.${note} Total: ${formatUsd(details.total_usd)} (${formatVnd(details.total_vnd)}).`;
+  return `${details.guest_name} ${joinList(actions)}.${note} Total: ${formatUsd(details.total_usd)} (${formatVnd(details.total_vnd)}).`;
 }
 
 export function claimDeletedMessage(details: ClaimActivityDetails) {

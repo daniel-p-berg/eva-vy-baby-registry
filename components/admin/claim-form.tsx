@@ -36,9 +36,10 @@ export function ClaimForm({ secret, claim, action }: Props) {
         <span className="label">Payment method</span>
         <select
           name="intendedPaymentMethod"
-          defaultValue={claim.intended_payment_method}
+          defaultValue={claim.intended_payment_method || ""}
           className="field"
         >
+          <option value="">Not collected</option>
           <option>Venmo</option>
           <option>Cash App</option>
         </select>

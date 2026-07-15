@@ -2,7 +2,6 @@
 
 import {
   ArrowLeft,
-  Check,
   LoaderCircle,
   Minus,
   Plus,
@@ -16,12 +15,6 @@ import { useMemo, useState, type FormEvent } from "react";
 
 import { useCart } from "@/components/cart-provider";
 import { formatUsd, formatVnd } from "@/lib/format";
-import type { PaymentMethod } from "@/lib/types";
-
-const methods: PaymentMethod[] = [
-  "Venmo",
-  "Cash App",
-];
 
 export function CheckoutClient() {
   const {
@@ -35,7 +28,6 @@ export function CheckoutClient() {
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
-  const [method, setMethod] = useState<PaymentMethod | "">("");
 
   const totals = useMemo(
     () => ({
@@ -57,10 +49,6 @@ export function CheckoutClient() {
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
-    if (!method) {
-      setError("Choose an intended payment method.");
-      return;
-    }
     setSubmitting(true);
     const formData = new FormData(event.currentTarget);
 
@@ -72,7 +60,6 @@ export function CheckoutClient() {
           guestName: formData.get("guestName"),
           guestEmail: formData.get("guestEmail"),
           guestNote: formData.get("guestNote"),
-          intendedPaymentMethod: method,
           fixed: cart.fixed.map((line) => ({
             itemId: line.itemId,
             quantity: line.quantity,
@@ -149,7 +136,7 @@ export function CheckoutClient() {
         </h1>
         <p className="mt-3 max-w-2xl text-sm leading-6 text-stone-600">
           No payment happens here. We&apos;ll reserve your selections and show
-          Venmo and Cash App instructions on the next screen.
+          the available ways to send money on the next screen.
         </p>
       </div>
 
@@ -349,44 +336,6 @@ export function CheckoutClient() {
                 />
               </label>
             </div>
-
-            <fieldset className="mt-6">
-              <legend className="label">
-                Intended payment method{" "}
-                <span className="text-peach-700">*</span>
-              </legend>
-              <div className="grid gap-2 sm:grid-cols-2">
-                {methods.map((option) => (
-                  <label
-                    key={option}
-                    className={`flex cursor-pointer items-center gap-3 rounded-2xl border p-3.5 text-sm font-bold transition ${
-                      method === option
-                        ? "border-sage-300 bg-sage-50 text-sage-700"
-                        : "border-peach-200 bg-white hover:bg-peach-50"
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      name="paymentMethod"
-                      value={option}
-                      checked={method === option}
-                      onChange={() => setMethod(option)}
-                      className="sr-only"
-                    />
-                    <span
-                      className={`grid size-5 place-items-center rounded-full border ${
-                        method === option
-                          ? "border-sage-500 bg-sage-500 text-white"
-                          : "border-stone-300"
-                      }`}
-                    >
-                      {method === option ? <Check className="size-3" /> : null}
-                    </span>
-                    {option}
-                  </label>
-                ))}
-              </div>
-            </fieldset>
 
             <label className="mt-6 block">
               <span className="label">Note for Daniel & Ngân (optional)</span>
