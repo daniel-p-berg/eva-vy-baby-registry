@@ -134,9 +134,6 @@ export default async function HomePage() {
                       priority={index < 3}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/10 to-transparent" />
-                    <div className="absolute right-3 top-3 rounded-full bg-white/85 px-2 py-1 text-[10px] font-black tracking-[0.12em] text-peach-700 shadow-sm">
-                      {photo.number}
-                    </div>
                     <div className="absolute inset-x-0 bottom-0 p-3 text-white">
                       <p className="text-sm font-bold">{photo.title}</p>
                       <p className="mt-0.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-white/75">
