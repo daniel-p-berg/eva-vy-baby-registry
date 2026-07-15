@@ -6,7 +6,9 @@ import type {
   ClaimDetail,
   ClaimStatus,
   RegistryItem,
+  SiteContent,
 } from "@/lib/types";
+import { defaultSiteContent } from "@/lib/public-data";
 
 export type AdminSummary = {
   claimedUsd: number;
@@ -26,13 +28,14 @@ export type AdminData = {
   claims: ClaimDetail[];
   items: RegistryItem[];
   events: ActivityEvent[];
+  siteContent: SiteContent;
 };
 
 const numberOrZero = (value: unknown) => Number(value || 0);
 
 export async function getAdminData(): Promise<AdminData> {
   const supabase = getServiceClient();
-  const [claimsResult, itemsResult, eventsResult] = await Promise.all([
+  const [claimsResult, itemsResult, eventsResult, siteContentResult] = await Promise.all([
     supabase
       .from("claims")
       .select(
@@ -48,11 +51,19 @@ export async function getAdminData(): Promise<AdminData> {
       .select("*")
       .order("created_at", { ascending: false })
       .limit(30),
+    supabase
+      .from("site_content")
+      .select("id, story_title, story_body, updated_at")
+      .eq("id", "home")
+      .maybeSingle(),
   ]);
 
   if (claimsResult.error) throw new Error(claimsResult.error.message);
   if (itemsResult.error) throw new Error(itemsResult.error.message);
   if (eventsResult.error) throw new Error(eventsResult.error.message);
+  if (siteContentResult.error) {
+    console.error("Could not load site content:", siteContentResult.error.message);
+  }
 
   const claims = (claimsResult.data || []).map((claim) => ({
     ...claim,
@@ -130,5 +141,8 @@ export async function getAdminData(): Promise<AdminData> {
     claims,
     items,
     events: (eventsResult.data || []) as ActivityEvent[],
+    siteContent: siteContentResult.data
+      ? (siteContentResult.data as SiteContent)
+      : defaultSiteContent,
   };
 }

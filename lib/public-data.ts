@@ -2,7 +2,35 @@ import "server-only";
 
 import { demoItems } from "@/lib/demo-items";
 import { getServiceClient, hasSupabaseConfig } from "@/lib/supabase";
-import type { RegistryItem } from "@/lib/types";
+import type { RegistryItem, SiteContent } from "@/lib/types";
+
+export const defaultSiteContent: SiteContent = {
+  id: "home",
+  story_title: "Our story so far",
+  story_body:
+    "A little space for our story—how we met, the places that shaped us, and the journey that led us to Eva Vy. We’ll add the photos here soon, ending with her first ultrasound.",
+  updated_at: null,
+};
+
+export async function getSiteContent(): Promise<SiteContent> {
+  if (!hasSupabaseConfig()) {
+    return defaultSiteContent;
+  }
+
+  const supabase = getServiceClient();
+  const { data, error } = await supabase
+    .from("site_content")
+    .select("id, story_title, story_body, updated_at")
+    .eq("id", "home")
+    .maybeSingle();
+
+  if (error) {
+    console.error("Could not load site content:", error.message);
+    return defaultSiteContent;
+  }
+
+  return data ? (data as SiteContent) : defaultSiteContent;
+}
 
 export async function getPublicItems(): Promise<RegistryItem[]> {
   if (!hasSupabaseConfig()) {

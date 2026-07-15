@@ -91,6 +91,14 @@ create table public.activity_events (
   created_at timestamptz not null default now()
 );
 
+create table public.site_content (
+  id text primary key check (id = 'home'),
+  story_title text not null check (char_length(trim(story_title)) between 1 and 120),
+  story_body text not null check (char_length(trim(story_body)) between 1 and 3000),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
 create index items_active_sort_idx on public.items (is_active, sort_order, created_at);
 create index claims_status_created_idx on public.claims (status, created_at desc);
 create index claim_items_item_idx on public.claim_items (item_id);
@@ -116,10 +124,15 @@ create trigger claims_set_updated_at
 before update on public.claims
 for each row execute function public.set_updated_at();
 
+create trigger site_content_set_updated_at
+before update on public.site_content
+for each row execute function public.set_updated_at();
+
 alter table public.items enable row level security;
 alter table public.claims enable row level security;
 alter table public.claim_items enable row level security;
 alter table public.activity_events enable row level security;
+alter table public.site_content enable row level security;
 
 -- No anon or authenticated policies are created. All application access goes
 -- through server-only code using the service role. This prevents direct reads
@@ -128,6 +141,7 @@ revoke all on table public.items from anon, authenticated;
 revoke all on table public.claims from anon, authenticated;
 revoke all on table public.claim_items from anon, authenticated;
 revoke all on table public.activity_events from anon, authenticated;
+revoke all on table public.site_content from anon, authenticated;
 
 create or replace view public.public_item_availability
 with (security_invoker = true)
@@ -497,5 +511,13 @@ revoke all on function public.admin_update_claim(uuid, text, text, text, text, t
   from public, anon, authenticated;
 grant execute on function public.admin_update_claim(uuid, text, text, text, text, text, text, jsonb)
   to service_role;
+
+insert into public.site_content (id, story_title, story_body)
+values (
+  'home',
+  'Our story so far',
+  'A little space for our story—how we met, the places that shaped us, and the journey that led us to Eva Vy. We’ll add the photos here soon, ending with her first ultrasound.'
+)
+on conflict (id) do nothing;
 
 commit;

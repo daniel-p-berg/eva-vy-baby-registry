@@ -25,6 +25,13 @@ export type RegistryItem = {
   remaining_vnd: number;
 };
 
+export type SiteContent = {
+  id: "home";
+  story_title: string;
+  story_body: string;
+  updated_at: string | null;
+};
+
 export type CartFixedLine = {
   itemId: string;
   title: string;

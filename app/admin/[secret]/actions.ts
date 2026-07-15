@@ -72,6 +72,45 @@ export async function logoutAdmin(formData: FormData) {
   redirect(adminUrl(secret));
 }
 
+const siteContentSchema = z.object({
+  storyTitle: z.string().trim().min(1).max(120),
+  storyBody: z.string().trim().min(1).max(3000),
+});
+
+export async function saveSiteContent(formData: FormData) {
+  const secret = await requireAdmin(formData);
+  const parsed = siteContentSchema.safeParse({
+    storyTitle: value(formData, "storyTitle"),
+    storyBody: value(formData, "storyBody"),
+  });
+  if (!parsed.success) {
+    redirect(
+      adminUrl(secret, `error=${encodeURIComponent(parsed.error.issues[0].message)}`),
+    );
+  }
+
+  const content = parsed.data;
+  const supabase = getServiceClient();
+  const { error } = await supabase.from("site_content").upsert({
+    id: "home",
+    story_title: content.storyTitle,
+    story_body: content.storyBody,
+  });
+  if (error) {
+    redirect(adminUrl(secret, "error=Could%20not%20save%20homepage%20story."));
+  }
+
+  await supabase.from("activity_events").insert({
+    event_type: "site_content_edited",
+    message: "Edited homepage story.",
+    metadata: { story_title: content.storyTitle },
+  });
+
+  revalidatePath("/");
+  revalidatePath(adminUrl(secret));
+  redirect(adminUrl(secret, "saved=story"));
+}
+
 const itemSchema = z
   .object({
     id: z.string().uuid().optional(),

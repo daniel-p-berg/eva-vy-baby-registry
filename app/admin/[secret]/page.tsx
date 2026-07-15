@@ -36,6 +36,7 @@ import {
   logoutAdmin,
   saveClaim,
   saveItem,
+  saveSiteContent,
 } from "./actions";
 
 export const dynamic = "force-dynamic";
@@ -131,7 +132,7 @@ export default async function AdminPage({ params, searchParams }: Props) {
     );
   }
 
-  const { summary, claims, items, events } = await getAdminData();
+  const { summary, claims, items, events, siteContent } = await getAdminData();
   const summaryCards = [
     {
       label: "Total claimed",
@@ -196,7 +197,9 @@ export default async function AdminPage({ params, searchParams }: Props) {
             ? "Claim saved."
             : query.saved === "deleted"
               ? "Claim deleted permanently."
-              : "Item saved."}
+              : query.saved === "story"
+                ? "Homepage story saved."
+                : "Item saved."}
         </div>
       ) : null}
       {query.error ? (
@@ -228,6 +231,54 @@ export default async function AdminPage({ params, searchParams }: Props) {
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="mt-10 rounded-4xl border border-white bg-white/80 p-6 shadow-soft sm:p-8">
+        <div className="flex items-center gap-3">
+          <span className="grid size-10 place-items-center rounded-full bg-peach-100 text-peach-700">
+            <Settings className="size-5" />
+          </span>
+          <div>
+            <h2 className="serif text-2xl font-bold">Homepage story</h2>
+            <p className="text-xs text-stone-500">
+              Edit the bio text that appears below the six photo placeholders.
+            </p>
+          </div>
+        </div>
+        <form action={saveSiteContent} className="mt-6 grid gap-5">
+          <input type="hidden" name="secret" value={secret} />
+          <label>
+            <span className="label">Story title</span>
+            <input
+              name="storyTitle"
+              required
+              maxLength={120}
+              defaultValue={siteContent.story_title}
+              className="field"
+            />
+          </label>
+          <label>
+            <span className="label">Story / bio</span>
+            <textarea
+              name="storyBody"
+              required
+              rows={5}
+              maxLength={3000}
+              defaultValue={siteContent.story_body}
+              className="field resize-y"
+            />
+          </label>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-xs leading-5 text-stone-500">
+              Tip: use blank lines to split the story into separate paragraphs.
+              Photo uploads are not wired yet; send the six square images here
+              and I’ll drop them into the placeholders.
+            </p>
+            <button type="submit" className="button-primary shrink-0">
+              Save homepage story
+            </button>
+          </div>
+        </form>
       </section>
 
       <div className="mt-10 grid items-start gap-8 xl:grid-cols-[1.6fr_0.8fr]">

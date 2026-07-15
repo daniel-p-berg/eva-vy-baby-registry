@@ -1,12 +1,35 @@
-import { ArrowDown, Heart, ShieldCheck, Sparkles } from "lucide-react";
+import {
+  ArrowDown,
+  Baby,
+  Heart,
+  Image as ImageIcon,
+  ShieldCheck,
+  Sparkles,
+} from "lucide-react";
 
 import { ItemCard } from "@/components/item-card";
-import { getPublicItems } from "@/lib/public-data";
+import { getPublicItems, getSiteContent } from "@/lib/public-data";
 
 export const dynamic = "force-dynamic";
 
+const storyPhotos = [
+  ["01", "How it started", "Photo coming soon"],
+  ["02", "Our adventures", "Photo coming soon"],
+  ["03", "Building home", "Photo coming soon"],
+  ["04", "Growing together", "Photo coming soon"],
+  ["05", "Almost parents", "Photo coming soon"],
+  ["06", "Eva Vy", "Ultrasound coming soon"],
+] as const;
+
 export default async function HomePage() {
-  const items = await getPublicItems();
+  const [items, siteContent] = await Promise.all([
+    getPublicItems(),
+    getSiteContent(),
+  ]);
+  const storyParagraphs = siteContent.story_body
+    .split(/\n{2,}/)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean);
 
   return (
     <main>
@@ -48,6 +71,73 @@ export default async function HomePage() {
             Explore the registry
             <ArrowDown className="size-4" aria-hidden="true" />
           </a>
+
+          <section
+            aria-labelledby="story-heading"
+            className="mx-auto mt-14 max-w-6xl rounded-[2rem] border border-white bg-white/65 p-4 text-left shadow-soft backdrop-blur sm:rounded-[2.5rem] sm:p-5 lg:p-6"
+          >
+            <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
+              {storyPhotos.map(([number, title, subtitle], index) => {
+                const isEva = index === storyPhotos.length - 1;
+                const Icon = isEva ? Baby : ImageIcon;
+                return (
+                  <div
+                    key={number}
+                    className={`group relative aspect-square overflow-hidden rounded-[1.5rem] border border-peach-100 bg-gradient-to-br ${
+                      isEva
+                        ? "from-sage-100 via-white to-peach-100"
+                        : "from-peach-50 via-white to-sage-50"
+                    } p-4`}
+                  >
+                    <div className="absolute right-3 top-3 rounded-full bg-white/80 px-2 py-1 text-[10px] font-black tracking-[0.12em] text-peach-700">
+                      {number}
+                    </div>
+                    <div className="grid h-full place-items-center rounded-[1.1rem] border border-dashed border-peach-200 bg-white/35 text-center">
+                      <div>
+                        <span
+                          className={`mx-auto grid size-11 place-items-center rounded-full ${
+                            isEva
+                              ? "bg-sage-100 text-sage-700"
+                              : "bg-peach-100 text-peach-700"
+                          }`}
+                        >
+                          <Icon className="size-5" aria-hidden="true" />
+                        </span>
+                        <p className="mt-3 text-sm font-bold text-ink">
+                          {title}
+                        </p>
+                        <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-stone-400">
+                          {subtitle}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="mt-5 grid gap-5 rounded-[1.5rem] bg-peach-50/70 p-5 sm:p-6 lg:grid-cols-[0.8fr_1.2fr]">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-peach-700">
+                  Before Eva Vy
+                </p>
+                <h2
+                  id="story-heading"
+                  className="serif mt-2 text-3xl font-bold tracking-tight text-ink sm:text-4xl"
+                >
+                  {siteContent.story_title}
+                </h2>
+              </div>
+              <div className="space-y-3 text-sm leading-6 text-stone-600 sm:text-base sm:leading-7">
+                {(storyParagraphs.length
+                  ? storyParagraphs
+                  : ["We’ll add our story here soon."]
+                ).map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
+            </div>
+          </section>
 
           <div className="mx-auto mt-12 grid max-w-2xl grid-cols-1 gap-3 text-left sm:grid-cols-3">
             {[
