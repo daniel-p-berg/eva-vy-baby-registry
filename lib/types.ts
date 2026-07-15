@@ -1,6 +1,6 @@
 export type ItemType = "fixed" | "fund";
 export type ClaimStatus = "claimed" | "paid" | "purchased" | "cancelled";
-export type PaymentMethod = "Venmo" | "PayPal" | "Cash App" | "Not sure yet";
+export type PaymentMethod = "Venmo" | "Cash App" | "Not sure yet";
 
 export type RegistryItem = {
   id: string;

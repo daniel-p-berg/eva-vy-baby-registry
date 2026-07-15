@@ -42,11 +42,6 @@ export default async function ConfirmationPage({
       image: "/payment/venmo.png",
     },
     {
-      name: "PayPal",
-      handle: process.env.PAYPAL_HANDLE || "Handle coming soon",
-      image: "/payment/paypal.png",
-    },
-    {
       name: "Cash App",
       handle: process.env.CASHAPP_HANDLE || "Handle coming soon",
       image: "/payment/cashapp.png",
@@ -142,7 +137,7 @@ export default async function ConfirmationPage({
             </div>
           </div>
 
-          <div className="mt-6 grid gap-4 sm:grid-cols-3">
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
             {paymentOptions.map((option) => (
               <div
                 key={option.name}

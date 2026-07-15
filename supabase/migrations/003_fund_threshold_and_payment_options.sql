@@ -1,3 +1,30 @@
+begin;
+
+update public.claims
+set intended_payment_method = 'Not sure yet'
+where intended_payment_method = 'PayPal';
+
+alter table public.claims
+  drop constraint if exists claims_intended_payment_method_check;
+
+alter table public.claims
+  add constraint claims_intended_payment_method_check
+  check (intended_payment_method in ('Venmo', 'Cash App', 'Not sure yet'));
+
+update public.claim_items
+set contribution_usd = unit_price_usd * quantity,
+    contribution_vnd = unit_price_vnd * quantity,
+    quantity = null,
+    unit_price_usd = null,
+    unit_price_vnd = null
+where item_id in (
+    '22222222-2222-4222-8222-222222222222',
+    '33333333-3333-4333-8333-333333333333',
+    '66666666-6666-4666-8666-666666666666',
+    'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'
+  )
+  and quantity is not null;
+
 insert into public.items (
   id, title, description, image_path, category, item_type,
   price_usd, price_vnd, quantity_needed,
@@ -73,4 +100,19 @@ insert into public.items (
     '/products/placeholder.png', 'Family care', 'fund',
     null, null, null, 800, 20800000, true, 10
   )
-on conflict (id) do nothing;
+on conflict (id) do update
+set title = excluded.title,
+    description = excluded.description,
+    image_path = excluded.image_path,
+    category = excluded.category,
+    item_type = excluded.item_type,
+    price_usd = excluded.price_usd,
+    price_vnd = excluded.price_vnd,
+    quantity_needed = excluded.quantity_needed,
+    fund_target_usd = excluded.fund_target_usd,
+    fund_target_vnd = excluded.fund_target_vnd,
+    is_active = excluded.is_active,
+    sort_order = excluded.sort_order,
+    updated_at = now();
+
+commit;

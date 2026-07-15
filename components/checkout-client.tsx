@@ -20,7 +20,6 @@ import type { PaymentMethod } from "@/lib/types";
 
 const methods: PaymentMethod[] = [
   "Venmo",
-  "PayPal",
   "Cash App",
   "Not sure yet",
 ];
@@ -151,7 +150,7 @@ export function CheckoutClient() {
         </h1>
         <p className="mt-3 max-w-2xl text-sm leading-6 text-stone-600">
           No payment happens here. We&apos;ll reserve your selections and show
-          every payment option on the next screen.
+          Venmo and Cash App instructions on the next screen.
         </p>
       </div>
 

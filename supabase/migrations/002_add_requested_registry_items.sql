@@ -7,10 +7,10 @@ insert into public.items (
 ) values
   (
     'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
-    'Ergobaby Omni baby carrier',
+    'Ergobaby Omni baby carrier fund',
     'A breathable, ergonomic carrier for hands-free walks, errands, and newborn-to-toddler snuggles.',
-    '/products/ergobaby-omni-carrier.png', 'On the go', 'fixed',
-    200, 5200000, 1, null, null, true, 7
+    '/products/ergobaby-omni-carrier.png', 'On the go', 'fund',
+    null, null, null, 200, 5200000, true, 7
   ),
   (
     '77777777-7777-4777-8777-777777777777',

@@ -40,7 +40,6 @@ export function ClaimForm({ secret, claim, action }: Props) {
           className="field"
         >
           <option>Venmo</option>
-          <option>PayPal</option>
           <option>Cash App</option>
           <option>Not sure yet</option>
         </select>

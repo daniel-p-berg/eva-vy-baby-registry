@@ -21,12 +21,7 @@ const payloadSchema = z
         "Enter a valid email address.",
       ),
     guestNote: z.string().trim().max(2000),
-    intendedPaymentMethod: z.enum([
-      "Venmo",
-      "PayPal",
-      "Cash App",
-      "Not sure yet",
-    ]),
+    intendedPaymentMethod: z.enum(["Venmo", "Cash App", "Not sure yet"]),
     fixed: z
       .array(
         z.object({
