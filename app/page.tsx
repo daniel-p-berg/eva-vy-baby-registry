@@ -54,7 +54,7 @@ const storyPhotos = [
 const storyGif = {
   title: "Bonus silliness",
   subtitle: "Photo booth loop",
-  image: "/story/photo-booth-loop.gif",
+  video: "/story/photo-booth-loop.mp4",
   alt: "Daniel and Ngân wearing playful photo booth glasses and props.",
 } as const;
 
@@ -151,14 +151,17 @@ export default async function HomePage() {
             <div className="mt-4 overflow-hidden rounded-[1.75rem] border border-peach-100 bg-ink text-left shadow-sm">
               <div className="grid lg:grid-cols-[1.35fr_0.65fr]">
                 <div className="relative aspect-[3/2] min-h-72 overflow-hidden lg:min-h-0">
-                  <Image
-                    src={storyGif.image}
-                    alt={storyGif.alt}
-                    fill
-                    sizes="(min-width: 1024px) 58vw, 100vw"
-                    className="object-cover"
-                    unoptimized
-                  />
+                  <video
+                    aria-label={storyGif.alt}
+                    autoPlay
+                    className="size-full object-cover"
+                    loop
+                    muted
+                    playsInline
+                    preload="metadata"
+                  >
+                    <source src={storyGif.video} type="video/mp4" />
+                  </video>
                 </div>
                 <div className="flex flex-col justify-center bg-gradient-to-br from-ink to-peach-700 p-5 text-white sm:p-7">
                   <p className="text-xs font-black uppercase tracking-[0.18em] text-peach-100">
