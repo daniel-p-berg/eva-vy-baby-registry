@@ -424,8 +424,8 @@ export default async function AdminPage({ params, searchParams }: Props) {
         </div>
         <dl className="mt-6 grid gap-3 sm:grid-cols-2">
           {[
-            ["Venmo", process.env.VENMO_HANDLE],
-            ["Cash App", process.env.CASHAPP_HANDLE],
+            ["Venmo", process.env.VENMO_HANDLE || "@Daniel-Berg-58"],
+            ["Cash App", process.env.CASHAPP_HANDLE || "$danielpbergjr"],
           ].map(([label, handle]) => (
             <div key={label} className="rounded-2xl bg-peach-50 p-4">
               <dt className="text-xs font-bold uppercase tracking-[0.12em] text-stone-500">

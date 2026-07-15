@@ -38,12 +38,12 @@ export default async function ConfirmationPage({
   const paymentOptions = [
     {
       name: "Venmo",
-      handle: process.env.VENMO_HANDLE || "Handle coming soon",
+      handle: process.env.VENMO_HANDLE || "@Daniel-Berg-58",
       image: "/payment/venmo.png",
     },
     {
       name: "Cash App",
-      handle: process.env.CASHAPP_HANDLE || "Handle coming soon",
+      handle: process.env.CASHAPP_HANDLE || "$danielpbergjr",
       image: "/payment/cashapp.png",
     },
   ];
