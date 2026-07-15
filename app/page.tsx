@@ -51,6 +51,13 @@ const storyPhotos = [
   },
 ] as const;
 
+const storyGif = {
+  title: "Bonus silliness",
+  subtitle: "Photo booth loop",
+  image: "/story/photo-booth-loop.gif",
+  alt: "Daniel and Ngân wearing playful photo booth glasses and props.",
+} as const;
+
 export default async function HomePage() {
   const [items, siteContent] = await Promise.all([
     getPublicItems(),
@@ -68,7 +75,7 @@ export default async function HomePage() {
         <div className="pointer-events-none absolute right-[9%] top-32 size-5 rotate-12 rounded-sm bg-sage-300/50" />
         <div className="pointer-events-none absolute bottom-16 left-[20%] size-2 rounded-full bg-peach-300" />
 
-        <div className="mx-auto max-w-4xl text-center">
+        <div className="mx-auto max-w-6xl text-center">
           <span className="pill">
             <Sparkles className="mr-1.5 size-3" aria-hidden="true" />
             A little celebration
@@ -106,7 +113,7 @@ export default async function HomePage() {
             aria-labelledby="story-heading"
             className="mx-auto mt-14 max-w-6xl rounded-[2rem] border border-white bg-white/65 p-4 text-left shadow-soft backdrop-blur sm:rounded-[2.5rem] sm:p-5 lg:p-6"
           >
-            <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {storyPhotos.map((photo, index) => {
                 const isEva = index === storyPhotos.length - 1;
                 return (
@@ -122,7 +129,7 @@ export default async function HomePage() {
                       src={photo.image}
                       alt={photo.alt}
                       fill
-                      sizes="(min-width: 1024px) 16vw, (min-width: 640px) 33vw, 50vw"
+                      sizes="(min-width: 1024px) 31vw, (min-width: 640px) 48vw, 100vw"
                       className="object-cover transition duration-500 group-hover:scale-105"
                       priority={index < 3}
                     />
@@ -139,6 +146,34 @@ export default async function HomePage() {
                   </div>
                 );
               })}
+            </div>
+
+            <div className="mt-4 overflow-hidden rounded-[1.75rem] border border-peach-100 bg-ink text-left shadow-sm">
+              <div className="grid lg:grid-cols-[1.35fr_0.65fr]">
+                <div className="relative aspect-[3/2] min-h-72 overflow-hidden lg:min-h-0">
+                  <Image
+                    src={storyGif.image}
+                    alt={storyGif.alt}
+                    fill
+                    sizes="(min-width: 1024px) 58vw, 100vw"
+                    className="object-cover"
+                    unoptimized
+                  />
+                </div>
+                <div className="flex flex-col justify-center bg-gradient-to-br from-ink to-peach-700 p-5 text-white sm:p-7">
+                  <p className="text-xs font-black uppercase tracking-[0.18em] text-peach-100">
+                    {storyGif.subtitle}
+                  </p>
+                  <h3 className="serif mt-2 text-3xl font-bold tracking-tight">
+                    {storyGif.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-6 text-white/80">
+                    A tiny preview of the household energy Eva Vy is joining:
+                    soft hearts, questionable props, and absolutely no shortage
+                    of bits.
+                  </p>
+                </div>
+              </div>
             </div>
 
             <div className="mt-5 grid gap-5 rounded-[1.5rem] bg-peach-50/70 p-5 sm:p-6 lg:grid-cols-[0.8fr_1.2fr]">
