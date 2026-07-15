@@ -1,11 +1,5 @@
-import {
-  ArrowDown,
-  Baby,
-  Heart,
-  Image as ImageIcon,
-  ShieldCheck,
-  Sparkles,
-} from "lucide-react";
+import Image from "next/image";
+import { ArrowDown, Heart, ShieldCheck, Sparkles } from "lucide-react";
 
 import { ItemCard } from "@/components/item-card";
 import { getPublicItems, getSiteContent } from "@/lib/public-data";
@@ -13,12 +7,48 @@ import { getPublicItems, getSiteContent } from "@/lib/public-data";
 export const dynamic = "force-dynamic";
 
 const storyPhotos = [
-  ["01", "How it started", "Photo coming soon"],
-  ["02", "Our adventures", "Photo coming soon"],
-  ["03", "Building home", "Photo coming soon"],
-  ["04", "Growing together", "Photo coming soon"],
-  ["05", "Almost parents", "Photo coming soon"],
-  ["06", "Eva Vy", "Ultrasound coming soon"],
+  {
+    number: "01",
+    title: "First adventures",
+    subtitle: "Beach days",
+    image: "/story/story-01.jpg",
+    alt: "Daniel and Ngân smiling together near palm trees and surfboards.",
+  },
+  {
+    number: "02",
+    title: "Vietnam nights",
+    subtitle: "Hoi An",
+    image: "/story/story-02.jpg",
+    alt: "Daniel and Ngân standing together at night in front of a lantern-lit Vietnamese courtyard.",
+  },
+  {
+    number: "03",
+    title: "Traditions",
+    subtitle: "Áo dài",
+    image: "/story/story-03.jpg",
+    alt: "Daniel and Ngân wearing traditional Vietnamese áo dài outfits.",
+  },
+  {
+    number: "04",
+    title: "Engaged",
+    subtitle: "Next chapter",
+    image: "/story/story-04.jpg",
+    alt: "Daniel and Ngân posing together for an engagement portrait.",
+  },
+  {
+    number: "05",
+    title: "Married",
+    subtitle: "Our wedding",
+    image: "/story/story-05.jpg",
+    alt: "Daniel and Ngân kissing during their wedding celebration.",
+  },
+  {
+    number: "06",
+    title: "Eva Vy",
+    subtitle: "First peek",
+    image: "/story/story-06-ultrasound.jpg",
+    alt: "Ultrasound image of baby Eva Vy.",
+  },
 ] as const;
 
 export default async function HomePage() {
@@ -77,39 +107,34 @@ export default async function HomePage() {
             className="mx-auto mt-14 max-w-6xl rounded-[2rem] border border-white bg-white/65 p-4 text-left shadow-soft backdrop-blur sm:rounded-[2.5rem] sm:p-5 lg:p-6"
           >
             <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
-              {storyPhotos.map(([number, title, subtitle], index) => {
+              {storyPhotos.map((photo, index) => {
                 const isEva = index === storyPhotos.length - 1;
-                const Icon = isEva ? Baby : ImageIcon;
                 return (
                   <div
-                    key={number}
-                    className={`group relative aspect-square overflow-hidden rounded-[1.5rem] border border-peach-100 bg-gradient-to-br ${
+                    key={photo.number}
+                    className={`group relative aspect-square overflow-hidden rounded-[1.5rem] border border-peach-100 bg-gradient-to-br shadow-sm ${
                       isEva
                         ? "from-sage-100 via-white to-peach-100"
                         : "from-peach-50 via-white to-sage-50"
-                    } p-4`}
+                    }`}
                   >
-                    <div className="absolute right-3 top-3 rounded-full bg-white/80 px-2 py-1 text-[10px] font-black tracking-[0.12em] text-peach-700">
-                      {number}
+                    <Image
+                      src={photo.image}
+                      alt={photo.alt}
+                      fill
+                      sizes="(min-width: 1024px) 16vw, (min-width: 640px) 33vw, 50vw"
+                      className="object-cover transition duration-500 group-hover:scale-105"
+                      priority={index < 3}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/10 to-transparent" />
+                    <div className="absolute right-3 top-3 rounded-full bg-white/85 px-2 py-1 text-[10px] font-black tracking-[0.12em] text-peach-700 shadow-sm">
+                      {photo.number}
                     </div>
-                    <div className="grid h-full place-items-center rounded-[1.1rem] border border-dashed border-peach-200 bg-white/35 text-center">
-                      <div>
-                        <span
-                          className={`mx-auto grid size-11 place-items-center rounded-full ${
-                            isEva
-                              ? "bg-sage-100 text-sage-700"
-                              : "bg-peach-100 text-peach-700"
-                          }`}
-                        >
-                          <Icon className="size-5" aria-hidden="true" />
-                        </span>
-                        <p className="mt-3 text-sm font-bold text-ink">
-                          {title}
-                        </p>
-                        <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-stone-400">
-                          {subtitle}
-                        </p>
-                      </div>
+                    <div className="absolute inset-x-0 bottom-0 p-3 text-white">
+                      <p className="text-sm font-bold">{photo.title}</p>
+                      <p className="mt-0.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-white/75">
+                        {photo.subtitle}
+                      </p>
                     </div>
                   </div>
                 );
