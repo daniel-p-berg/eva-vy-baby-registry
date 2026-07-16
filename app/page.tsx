@@ -147,11 +147,11 @@ export default async function HomePage() {
 
             <div className="mt-4 overflow-hidden rounded-[1.75rem] border border-peach-100 bg-ink text-left shadow-sm">
               <div className="grid lg:grid-cols-[1.35fr_0.65fr]">
-                <div className="relative aspect-[3/2] min-h-72 overflow-hidden lg:min-h-0">
+                <div className="relative aspect-[3/2] min-h-72 bg-black lg:min-h-0">
                   <video
                     aria-label={storyGif.alt}
                     autoPlay
-                    className="size-full object-cover"
+                    className="size-full object-contain"
                     loop
                     muted
                     playsInline
