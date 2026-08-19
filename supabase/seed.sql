@@ -26,24 +26,24 @@ insert into public.items (
   ),
   (
     '44444444-4444-4444-8444-444444444444',
-    'Baby bathtub',
-    'A roomy PP baby tub with a removable support seat, non-slip handholds, and an easy-drain plug for simpler newborn bath time.',
-    '/products/baby-bathtub.jpg', 'Bath', 'fixed',
-    15, 400000, 1, null, null, true, 4
+    'Stokke Flexi Bath Bundle',
+    'A foldable baby bath with a newborn support seat, non-slip base, and heat-sensitive drain plug for bathing from birth through the toddler years.',
+    '/products/stokke-flexi-bath-bundle.jpg', 'Bath', 'fixed',
+    84, 2190000, 1, null, null, true, 4
   ),
   (
     '55555555-5555-4555-8555-555555555555',
-    'Diaper caddy',
-    'A portable organizer with divided compartments and outer pockets for diapers, wipes, creams, and other changing essentials.',
-    '/products/diaper-caddy.jpg', 'Everyday', 'fixed',
-    7, 190000, 1, null, null, true, 5
+    'MOOIMOM baby essentials tote',
+    'A lightweight, water-resistant carryall with roomy compartments for bottles, diapers, wipes, spare clothes, and everyday baby gear.',
+    '/products/mooimom-baby-essentials-tote.jpg', 'Everyday', 'fixed',
+    25, 649000, 1, null, null, true, 5
   ),
   (
     '66666666-6666-4666-8666-666666666666',
-    'Crib mattress fund',
+    'Crib mattress',
     'A firm, flat crib mattress for a wooden cot, with a lightly quilted surface and simple neutral finish.',
-    '/products/crib-mattress.jpg', 'Sleep', 'fund',
-    null, null, null, 19, 500000, true, 6
+    '/products/crib-mattress.jpg', 'Sleep', 'fixed',
+    19, 500000, 2, null, null, true, 6
   ),
   (
     'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
