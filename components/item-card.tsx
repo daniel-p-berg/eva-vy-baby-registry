@@ -47,6 +47,13 @@ export function ItemCard({ item }: { item: RegistryItem }) {
     item.item_type === "fund" && item.fund_target_usd
       ? Math.min(100, (item.funded_usd / item.fund_target_usd) * 100)
       : 0;
+  const suggestedContributions = Array.from(
+    new Set(
+      [25, 50, 100, 200]
+        .map((amount) => Math.min(amount, item.remaining_usd))
+        .filter((amount) => amount > 0),
+    ),
+  );
 
   const statusClass = useMemo(() => {
     if (status === "Claimed" || status === "Fully funded") {
@@ -244,8 +251,16 @@ export function ItemCard({ item }: { item: RegistryItem }) {
                   </button>
                 </div>
               ) : null}
-              <div className="grid grid-cols-4 gap-2">
-                {[25, 50, 100, 200].map((amount) => (
+              <div
+                className="grid gap-2"
+                style={{
+                  gridTemplateColumns:
+                    suggestedContributions.length > 0
+                      ? `repeat(${suggestedContributions.length}, minmax(0, 1fr))`
+                      : undefined,
+                }}
+              >
+                {suggestedContributions.map((amount) => (
                   <button
                     key={amount}
                     type="button"
@@ -253,7 +268,7 @@ export function ItemCard({ item }: { item: RegistryItem }) {
                     onClick={() => chooseContribution(amount)}
                     className="rounded-xl border border-peach-200 bg-white py-2.5 text-xs font-bold transition hover:border-peach-300 hover:bg-peach-50 disabled:opacity-40"
                   >
-                    ${Math.min(amount, item.remaining_usd)}
+                    ${amount}
                   </button>
                 ))}
               </div>
