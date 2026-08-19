@@ -12,38 +12,38 @@ insert into public.items (
   ),
   (
     '22222222-2222-4222-8222-222222222222',
-    'Baby bouncer fund',
-    'Help cover a cozy, supportive bouncer where Eva Vy can relax close by.',
-    '/products/placeholder.png', 'Nursery', 'fund',
-    null, null, null, 110, 2860000, true, 2
+    'BabyBjörn Bouncer Bliss fund',
+    'An ergonomic mesh bouncer with natural baby-powered rocking, three recline positions, and a lightweight frame that folds flat for moving or storage.',
+    '/products/babybjorn-bouncer-bliss.jpg', 'Nursery', 'fund',
+    null, null, null, 212, 5500000, true, 2
   ),
   (
     '33333333-3333-4333-8333-333333333333',
-    'Changing table fund',
-    'Contribute toward a simple changing station with room for diapers and daily essentials.',
-    '/products/placeholder.png', 'Nursery', 'fund',
-    null, null, null, 165, 4290000, true, 3
+    'Foldable changing table fund',
+    'A practical height-adjustable changing station with a wipe-clean top, side organizer, lower shelf, and lockable wheels.',
+    '/products/foldable-changing-table.jpg', 'Nursery', 'fund',
+    null, null, null, 37, 950000, true, 3
   ),
   (
     '44444444-4444-4444-8444-444444444444',
     'Baby bathtub',
-    'A safe little tub for comfortable bath time.',
-    '/products/placeholder.png', 'Bath', 'fixed',
-    48, 1248000, 1, null, null, true, 4
+    'A roomy PP baby tub with a removable support seat, non-slip handholds, and an easy-drain plug for simpler newborn bath time.',
+    '/products/baby-bathtub.jpg', 'Bath', 'fixed',
+    15, 400000, 1, null, null, true, 4
   ),
   (
     '55555555-5555-4555-8555-555555555555',
     'Diaper caddy',
-    'A portable organizer for diapers, wipes, and tiny necessities.',
-    '/products/placeholder.png', 'Everyday', 'fixed',
-    32, 832000, 2, null, null, true, 5
+    'A portable organizer with divided compartments and outer pockets for diapers, wipes, creams, and other changing essentials.',
+    '/products/diaper-caddy.jpg', 'Everyday', 'fixed',
+    7, 190000, 1, null, null, true, 5
   ),
   (
     '66666666-6666-4666-8666-666666666666',
     'Crib mattress fund',
-    'Help cover a firm, breathable mattress for restful nights.',
-    '/products/placeholder.png', 'Sleep', 'fund',
-    null, null, null, 145, 3770000, true, 6
+    'A firm, flat crib mattress for a wooden cot, with a lightly quilted surface and simple neutral finish.',
+    '/products/crib-mattress.jpg', 'Sleep', 'fund',
+    null, null, null, 19, 500000, true, 6
   ),
   (
     'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
@@ -67,10 +67,10 @@ insert into public.items (
     null, null, null, 280, 7280000, true, 9
   ),
   (
-    '99999999-9999-4999-8999-999999999999',
-    'Hospital & postpartum fund',
-    'Support meals, recovery supplies, and the first days at home.',
-    '/products/placeholder.png', 'Family care', 'fund',
-    null, null, null, 800, 20800000, true, 10
+    'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',
+    'Baby Brezza Bottle Washer Pro fund',
+    'An all-in-one countertop machine that washes up to four bottles and pump parts, then steam-sterilizes and hot-air dries them in one cycle.',
+    '/products/baby-brezza-bottle-washer.jpg', 'Feeding', 'fund',
+    null, null, null, 269, 6990000, true, 10
   )
 on conflict (id) do nothing;
